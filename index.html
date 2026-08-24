@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4º Pelotão — Confraternização 2026 | Consulta de Interesse</title>
+<style>
+  :root{
+    --marrom:#5b3a1e;        /* marrom institucional da 80ª CIPM */
+    --marrom-escuro:#3a2510;
+    --marrom-medio:#7a5230;
+    --dourado:#d4af37;
+    --dourado-suave:#f0e6c8;
+    --bg:#f3efe7;
+    --card:#ffffff;
+    --texto:#1f2937;
+    --cinza:#6b7280;
+    --erro:#b91c1c;
+    --raio:14px;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Segoe UI', Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--texto);
+    line-height:1.55;
+    padding:16px;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+  }
+  .container{
+    width:100%;
+    max-width:680px;
+    background:var(--card);
+    border-radius:var(--raio);
+    box-shadow:0 8px 28px rgba(59,42,16,.18);
+    overflow:hidden;
+  }
+
+  /* ===== Cabeçalho com a arte (brasão + marrom) ===== */
+  .header-art{
+    background:linear-gradient(135deg, var(--marrom-escuro), var(--marrom) 55%, var(--marrom-medio));
+    border-bottom:4px solid var(--dourado);
+  }
+  .header-art img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+
+  /* ===== Conteúdo ===== */
+  .content{ padding:22px 20px 26px; }
+  .intro{
+    font-size:.95rem;
+    color:var(--cinza);
+    text-align:justify;
+    margin-bottom:22px;
+    padding-bottom:16px;
+    border-bottom:1px solid #e5e7eb;
+  }
+  .campo{ margin-bottom:22px; }
+  .campo label{ display:block; font-weight:700; margin-bottom:8px; font-size:.95rem; }
+  .campo label .req{ color:var(--erro); }
+  .campo small{ display:block; color:var(--cinza); font-size:.78rem; margin-top:6px; }
+
+  input[type="text"], textarea{
+    width:100%;
+    padding:12px 14px;
+    font-size:1rem;
+    font-family:inherit;
+    border:1.5px solid #d1d5db;
+    border-radius:8px;
+    background:#fafbfc;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  input[type="text"]:focus, textarea:focus{
+    outline:none;
+    border-color:var(--marrom);
+    box-shadow:0 0 0 3px rgba(91,58,30,.14);
+    background:#fff;
+  }
+  textarea{ min-height:110px; resize:vertical; }
+
+  /* ===== Opções ===== */
+  .opcoes{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .opcao{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:1.5px solid #d1d5db;
+    border-radius:8px;
+    padding:14px;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    font-size:.95rem;
+  }
+  .opcao:hover{ border-color:var(--marrom); background:#faf6ef; }
+  .opcao input[type="radio"]{ accent-color:var(--marrom); width:18px; height:18px; flex-shrink:0; }
+  .opcao.selecionada{ border-color:var(--marrom); background:#f5eddd; font-weight:600; }
+
+  /* ===== Botão Enviar ===== */
+  .btn-enviar{
+    width:100%;
+    padding:15px;
+    font-size:1.05rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#fff;
+    background:linear-gradient(135deg, var(--marrom) 0%, var(--marrom-escuro) 100%);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(91,58,30,.35);
+    transition:transform .15s, box-shadow .15s;
+    margin-top:6px;
+  }
+  .btn-enviar:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(91,58,30,.45); }
+  .btn-enviar:active{ transform:translateY(0); }
+  .btn-enviar:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
+
+  /* ===== Mensagem de confirmação ===== */
+  .confirmacao{ display:none; text-align:center; padding:40px 24px; }
+  .confirmacao.visivel{ display:block; }
+  .confirmacao .icone{ font-size:3rem; margin-bottom:12px; }
+  .confirmacao h2{ color:var(--marrom); margin-bottom:10px; font-size:1.4rem; }
+  .confirmacao p{ color:var(--cinza); font-size:.95rem; }
+
+  .aviso{
+    font-size:.8rem;
+    color:var(--cinza);
+    text-align:center;
+    padding:10px 14px;
+    background:var(--dourado-suave);
+    border-top:1px solid #e5d9a8;
+  }
+  .aviso.erro{ background:#fdecec; border-color:#f5c6c6; color:var(--erro); }
+
+  @media (min-width:600px){
+    body{ padding:32px 20px; }
+    .content{ padding:30px 34px 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Cabeçalho: arte com brasão e fundo marrom (basta colocar o arquivo na mesma pasta) -->
+  <div class="header-art">
+    <img src="confraternizacao-2026-brasao.png"
+         alt="4º Pelotão — Confraternização 2026 — Consulta de Interesse">
+  </div>
+
+  <!-- Formulário -->
+  <main class="content" id="formulario">
+    <p class="intro">
+      Senhores(as), estamos realizando uma consulta junto ao efetivo do 4º Pelotão
+      com o objetivo de verificar o interesse dos policiais em participar de uma
+      confraternização na <strong>segunda quinzena de setembro de 2026</strong>.
+      A participação de todos será muito importante para que possamos avaliar a
+      viabilidade do evento, estimar o número de participantes e organizar um
+      momento de integração, descontração e fortalecimento dos laços entre os
+      integrantes do Pelotão. Neste primeiro momento, trata-se apenas de uma
+      <strong>consulta de interesse</strong>. As informações serão utilizadas
+      exclusivamente para planejamento e organização do evento.
+    </p>
+
+    <form id="consulta" novalidate>
+
+      <!-- Pergunta 1 -->
+      <div class="campo">
+        <label for="nome">1. Nome completo <span class="req">*</span></label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo"
+               maxlength="120" required autocomplete="name">
+        <small>O nome será utilizado apenas para controle interno do efetivo.</small>
+      </div>
+
+      <!-- Pergunta 2 -->
+      <div class="campo">
+        <label>2. Você tem interesse em participar da confraternização do 4º Pelotão? <span class="req">*</span></label>
+        <div class="opcoes">
+          <label class="opcao">
+            <input type="radio" name="interesse" value="Sim, tenho interesse" required>
+            <span>Sim, tenho interesse</span>
+          </label>
+          <label class="opcao">
+            <input type="radio" name="interesse" value="Não tenho interesse" required>
+            <span>Não tenho interesse</span>
+          </label>
+        </div>
+        <small>Responder "sim" não garante vaga — apenas registra seu interesse.</small>
+      </div>
+
+      <!-- Pergunta 3 -->
+      <div class="campo">
+        <label for="sugestoes">3. Caso tenha alguma sugestão para a confraternização, deixe abaixo:</label>
+        <textarea id="sugestoes" name="sugestoes"
+          placeholder="Ex.: melhor dia da semana, horário, local, formato do evento, acompanhantes, cardápio..."></textarea>
+        <small>Opcional. Sugestões de data, horário, local, formato e acompanhantes ajudam na organização.</small>
+      </div>
+
+      <button type="submit" class="btn-enviar" id="btnEnviar">Enviar resposta</button>
+    </form>
+  </main>
+
+  <!-- Mensagem de confirmação -->
+  <section class="confirmacao" id="confirmacao" aria-live="polite">
+    <div class="icone">🎖️</div>
+    <h2>Obrigado pela participação!</h2>
+    <p>Suas informações foram registradas e serão utilizadas para auxiliar na organização
+       da confraternização do 4º Pelotão.<br><br>
+       Assim que houver definição de data, local e demais detalhes, novas informações
+       serão repassadas ao efetivo.</p>
+  </section>
+
+  <div class="aviso" id="aviso">
+    Consulta oficial do 4º Pelotão — 80ª CIPM, Cândido Sales. Dúvidas: falar com o comando do Pelotão.
+  </div>
+</div>
+
+<script>
+(function(){
+  // ============================================================
+  // PASSO OBRIGATÓRIO: depois de implantar o Apps Script,
+  // cole aqui a URL da planilha (Etapa 4 do passo a passo).
+  // Enquanto estiver vazio "", o formulário funciona em MODO
+  // DEMONSTRAÇÃO e NÃO salva as respostas.
+  // ============================================================
+  var URL_PLANILHA = "https://script.google.com/macros/s/AKfycbwdUhRVRbjuqs42TtujYL32RNlltTE3KBYyKXPyzUIyBNkQYOLDp917BTH-6KcrstKAbA/exec";
+
+  var form        = document.getElementById("consulta");
+  var btnEnviar   = document.getElementById("btnEnviar");
+  var confirmacao = document.getElementById("confirmacao");
+  var formulario  = document.getElementById("formulario");
+  var aviso       = document.getElementById("aviso");
+
+  // Bloqueio de resposta duplicada por dispositivo (1 resposta por celular)
+  var CHAVE = "confraternizacao4pelotao2026_respondeu";
+  if (localStorage.getItem(CHAVE)) {
+    formulario.style.display = "none";
+    confirmacao.classList.add("visivel");
+  }
+
+  // Destaque visual da opção selecionada
+  document.querySelectorAll(".opcao").forEach(function(opcao){
+    var radio = opcao.querySelector("input");
+    radio.addEventListener("change", function(){
+      document.querySelectorAll(".opcao").forEach(function(o){ o.classList.remove("selecionada"); });
+      if (radio.checked) opcao.classList.add("selecionada");
+    });
+  });
+
+  // Envio
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    var nome = document.getElementById("nome").value.trim();
+    var interesse = form.querySelector('input[name="interesse"]:checked');
+    var sugestoes = document.getElementById("sugestoes").value.trim();
+
+    if (nome === "") {
+      aviso.textContent = "Por favor, informe seu nome completo.";
+      aviso.classList.add("erro");
+      document.getElementById("nome").focus();
+      return;
+    }
+    if (!interesse) {
+      aviso.textContent = "Por favor, selecione se você tem interesse em participar.";
+      aviso.classList.add("erro");
+      return;
+    }
+
+    btnEnviar.disabled = true;
+    btnEnviar.textContent = "Enviando...";
+
+    var dados = { nome: nome, interesse: interesse.value, sugestoes: sugestoes };
+
+    function concluir(){
+      localStorage.setItem(CHAVE, "1");
+      formulario.style.display = "none";
+      confirmacao.classList.add("visivel");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    if (URL_PLANILHA) {
+      fetch(URL_PLANILHA, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(dados)
+      }).then(concluir).catch(function(){
+        aviso.textContent = "Não foi possível enviar agora. Por favor, tente novamente em instantes.";
+        aviso.classList.add("erro");
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = "Enviar resposta";
+      });
+    } else {
+      setTimeout(concluir, 600); // modo demonstração
+    }
+  });
+})();
+</script>
+</body>
+</html>
