@@ -259,7 +259,6 @@
 (function(){
   // ============================================================
   // COLE AQUI A URL DA SUA PLANILHA (termina em /exec)
-  // Enquanto estiver vazio "", o formulário NÃO salva respostas.
   // ============================================================
   var URL_PLANILHA = "";
 
@@ -268,13 +267,6 @@
   var confirmacao = document.getElementById("confirmacao");
   var formulario  = document.getElementById("formulario");
   var aviso       = document.getElementById("aviso");
-
-  // Bloqueio de resposta duplicada por dispositivo
-  var CHAVE = "confraternizacao4pelotao2026_respondeu";
-  if (localStorage.getItem(CHAVE)) {
-    formulario.style.display = "none";
-    confirmacao.classList.add("visivel");
-  }
 
   // Destaque visual da opção selecionada
   document.querySelectorAll(".opcao").forEach(function(opcao){
@@ -285,7 +277,7 @@
     });
   });
 
-  // Envio
+  // Envio (SEM bloqueio — qualquer pessoa pode responder quantas vezes quiser)
   form.addEventListener("submit", function(e){
     e.preventDefault();
 
@@ -311,7 +303,6 @@
     var dados = { nome: nome, interesse: interesse.value, sugestoes: sugestoes };
 
     function concluir(){
-      localStorage.setItem(CHAVE, "1");
       formulario.style.display = "none";
       confirmacao.classList.add("visivel");
       window.scrollTo({ top: 0, behavior: "smooth" });
