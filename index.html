@@ -43,12 +43,40 @@
   .header-art{
     background:linear-gradient(135deg, var(--marrom-escuro), var(--marrom) 55%, var(--marrom-medio));
     border-bottom:4px solid var(--dourado);
+    position:relative;
   }
   .header-art img{
     display:block;
     width:100%;
     height:auto;
   }
+  /* Fallback: texto institucional exibido se a imagem não carregar */
+  .header-texto{
+    display:none;
+    text-align:center;
+    padding:44px 20px 36px;
+    color:#fff;
+  }
+  .header-texto h1{
+    font-size:1.8rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .header-texto .ano{
+    color:var(--dourado);
+    font-size:1.1rem;
+    letter-spacing:.22em;
+    font-weight:700;
+    margin-top:4px;
+    text-transform:uppercase;
+  }
+  .header-texto .sub{
+    font-size:.9rem;
+    opacity:.9;
+    margin-top:10px;
+  }
+  .header-art.sem-imagem .header-texto{ display:block; }
 
   /* ===== Conteúdo ===== */
   .content{ padding:22px 20px 26px; }
@@ -148,13 +176,19 @@
 
 <div class="container">
 
-  <!-- Cabeçalho: arte com brasão e fundo marrom (basta colocar o arquivo na mesma pasta) -->
-  <div class="header-art">
+  <!-- ===== Cabeçalho: imagem do brasão + fallback de texto ===== -->
+  <div class="header-art" id="headerArt">
     <img src="confraternizacao-2026-brasao.png"
+         onerror="document.getElementById('headerArt').classList.add('sem-imagem'); this.style.display='none';"
          alt="4º Pelotão — Confraternização 2026 — Consulta de Interesse">
+    <div class="header-texto">
+      <h1>4º Pelotão</h1>
+      <div class="ano">Confraternização 2026</div>
+      <div class="sub">Consulta de Interesse</div>
+    </div>
   </div>
 
-  <!-- Formulário -->
+  <!-- ===== Formulário ===== -->
   <main class="content" id="formulario">
     <p class="intro">
       Senhores(as), estamos realizando uma consulta junto ao efetivo do 4º Pelotão
@@ -206,7 +240,7 @@
     </form>
   </main>
 
-  <!-- Mensagem de confirmação -->
+  <!-- ===== Mensagem de confirmação ===== -->
   <section class="confirmacao" id="confirmacao" aria-live="polite">
     <div class="icone">🎖️</div>
     <h2>Obrigado pela participação!</h2>
@@ -224,12 +258,10 @@
 <script>
 (function(){
   // ============================================================
-  // PASSO OBRIGATÓRIO: depois de implantar o Apps Script,
-  // cole aqui a URL da planilha (Etapa 4 do passo a passo).
-  // Enquanto estiver vazio "", o formulário funciona em MODO
-  // DEMONSTRAÇÃO e NÃO salva as respostas.
+  // COLE AQUI A URL DA SUA PLANILHA (termina em /exec)
+  // Enquanto estiver vazio "", o formulário NÃO salva respostas.
   // ============================================================
-  var URL_PLANILHA = "https://script.google.com/macros/s/AKfycbwdUhRVRbjuqs42TtujYL32RNlltTE3KBYyKXPyzUIyBNkQYOLDp917BTH-6KcrstKAbA/exec";
+  var URL_PLANILHA = "";
 
   var form        = document.getElementById("consulta");
   var btnEnviar   = document.getElementById("btnEnviar");
@@ -237,7 +269,7 @@
   var formulario  = document.getElementById("formulario");
   var aviso       = document.getElementById("aviso");
 
-  // Bloqueio de resposta duplicada por dispositivo (1 resposta por celular)
+  // Bloqueio de resposta duplicada por dispositivo
   var CHAVE = "confraternizacao4pelotao2026_respondeu";
   if (localStorage.getItem(CHAVE)) {
     formulario.style.display = "none";
