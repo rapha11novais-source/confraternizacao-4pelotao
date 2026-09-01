@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4º Pelotão — Confraternização 2026 | Consulta de Interesse</title>
+<title>4º Pelotão — Confraternização 2026 | Acompanhantes</title>
 <style>
   :root{
-    --marrom:#5b3a1e;        /* marrom institucional da 80ª CIPM */
+    --marrom:#5b3a1e;
     --marrom-escuro:#3a2510;
     --marrom-medio:#7a5230;
     --dourado:#d4af37;
@@ -38,132 +38,68 @@
     box-shadow:0 8px 28px rgba(59,42,16,.18);
     overflow:hidden;
   }
-
-  /* ===== Cabeçalho com a arte (brasão + marrom) ===== */
   .header-art{
     background:linear-gradient(135deg, var(--marrom-escuro), var(--marrom) 55%, var(--marrom-medio));
     border-bottom:4px solid var(--dourado);
     position:relative;
   }
-  .header-art img{
-    display:block;
-    width:100%;
-    height:auto;
-  }
-  /* Fallback: texto institucional exibido se a imagem não carregar */
-  .header-texto{
-    display:none;
-    text-align:center;
-    padding:44px 20px 36px;
-    color:#fff;
-  }
-  .header-texto h1{
-    font-size:1.8rem;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    margin:0;
-  }
-  .header-texto .ano{
-    color:var(--dourado);
-    font-size:1.1rem;
-    letter-spacing:.22em;
-    font-weight:700;
-    margin-top:4px;
-    text-transform:uppercase;
-  }
-  .header-texto .sub{
-    font-size:.9rem;
-    opacity:.9;
-    margin-top:10px;
-  }
+  .header-art img{ display:block; width:100%; height:auto; }
+  .header-texto{ display:none; text-align:center; padding:44px 20px 36px; color:#fff; }
+  .header-texto h1{ font-size:1.8rem; letter-spacing:.06em; text-transform:uppercase; margin:0; }
+  .header-texto .ano{ color:var(--dourado); font-size:1.1rem; letter-spacing:.22em; font-weight:700; margin-top:4px; text-transform:uppercase; }
+  .header-texto .sub{ font-size:.9rem; opacity:.9; margin-top:10px; }
   .header-art.sem-imagem .header-texto{ display:block; }
 
-  /* ===== Conteúdo ===== */
   .content{ padding:22px 20px 26px; }
   .intro{
-    font-size:.95rem;
-    color:var(--cinza);
-    text-align:justify;
-    margin-bottom:22px;
-    padding-bottom:16px;
-    border-bottom:1px solid #e5e7eb;
+    font-size:.95rem; color:var(--cinza); text-align:justify;
+    margin-bottom:22px; padding-bottom:16px; border-bottom:1px solid #e5e7eb;
   }
   .campo{ margin-bottom:22px; }
   .campo label{ display:block; font-weight:700; margin-bottom:8px; font-size:.95rem; }
   .campo label .req{ color:var(--erro); }
   .campo small{ display:block; color:var(--cinza); font-size:.78rem; margin-top:6px; }
 
-  input[type="text"], textarea{
-    width:100%;
-    padding:12px 14px;
-    font-size:1rem;
-    font-family:inherit;
-    border:1.5px solid #d1d5db;
-    border-radius:8px;
-    background:#fafbfc;
+  input[type="text"], input[type="number"]{
+    width:100%; padding:12px 14px; font-size:1rem; font-family:inherit;
+    border:1.5px solid #d1d5db; border-radius:8px; background:#fafbfc;
     transition:border-color .2s, box-shadow .2s;
   }
-  input[type="text"]:focus, textarea:focus{
-    outline:none;
-    border-color:var(--marrom);
-    box-shadow:0 0 0 3px rgba(91,58,30,.14);
-    background:#fff;
+  input[type="text"]:focus, input[type="number"]:focus{
+    outline:none; border-color:var(--marrom);
+    box-shadow:0 0 0 3px rgba(91,58,30,.14); background:#fff;
   }
-  textarea{ min-height:110px; resize:vertical; }
 
-  /* ===== Opções ===== */
   .opcoes{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
   .opcao{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    border:1.5px solid #d1d5db;
-    border-radius:8px;
-    padding:14px;
-    cursor:pointer;
-    transition:border-color .2s, background .2s;
-    font-size:.95rem;
+    display:flex; align-items:center; gap:12px;
+    border:1.5px solid #d1d5db; border-radius:8px; padding:14px;
+    cursor:pointer; transition:border-color .2s, background .2s; font-size:.95rem;
   }
   .opcao:hover{ border-color:var(--marrom); background:#faf6ef; }
-  .opcao input[type="radio"]{ accent-color:var(--marrom); width:18px; height:18px; flex-shrink:0; }
+  .opcao input[type="radio"], .opcao input[type="checkbox"]{ accent-color:var(--marrom); width:18px; height:18px; flex-shrink:0; }
   .opcao.selecionada{ border-color:var(--marrom); background:#f5eddd; font-weight:600; }
 
-  /* ===== Botão Enviar ===== */
+  .oculto{ display:none; }
   .btn-enviar{
-    width:100%;
-    padding:15px;
-    font-size:1.05rem;
-    font-weight:800;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:#fff;
+    width:100%; padding:15px; font-size:1.05rem; font-weight:800; letter-spacing:.08em;
+    text-transform:uppercase; color:#fff;
     background:linear-gradient(135deg, var(--marrom) 0%, var(--marrom-escuro) 100%);
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+    border:none; border-radius:8px; cursor:pointer;
     box-shadow:0 4px 12px rgba(91,58,30,.35);
-    transition:transform .15s, box-shadow .15s;
-    margin-top:6px;
+    transition:transform .15s, box-shadow .15s; margin-top:6px;
   }
   .btn-enviar:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(91,58,30,.45); }
   .btn-enviar:active{ transform:translateY(0); }
   .btn-enviar:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
 
-  /* ===== Mensagem de confirmação ===== */
   .confirmacao{ display:none; text-align:center; padding:40px 24px; }
   .confirmacao.visivel{ display:block; }
   .confirmacao .icone{ font-size:3rem; margin-bottom:12px; }
   .confirmacao h2{ color:var(--marrom); margin-bottom:10px; font-size:1.4rem; }
   .confirmacao p{ color:var(--cinza); font-size:.95rem; }
 
-  .aviso{
-    font-size:.8rem;
-    color:var(--cinza);
-    text-align:center;
-    padding:10px 14px;
-    background:var(--dourado-suave);
-    border-top:1px solid #e5d9a8;
-  }
+  .aviso{ font-size:.8rem; color:var(--cinza); text-align:center; padding:10px 14px; background:var(--dourado-suave); border-top:1px solid #e5d9a8; }
   .aviso.erro{ background:#fdecec; border-color:#f5c6c6; color:var(--erro); }
 
   @media (min-width:600px){
@@ -176,77 +112,84 @@
 
 <div class="container">
 
-  <!-- ===== Cabeçalho: imagem do brasão + fallback de texto ===== -->
   <div class="header-art" id="headerArt">
     <img src="confraternizacao-2026-brasao.png"
          onerror="document.getElementById('headerArt').classList.add('sem-imagem'); this.style.display='none';"
-         alt="4º Pelotão — Confraternização 2026 — Consulta de Interesse">
+         alt="4º Pelotão — Confraternização 2026 — Acompanhantes">
     <div class="header-texto">
       <h1>4º Pelotão</h1>
       <div class="ano">Confraternização 2026</div>
-      <div class="sub">Consulta de Interesse</div>
+      <div class="sub">Registro de Acompanhantes</div>
     </div>
   </div>
 
-  <!-- ===== Formulário ===== -->
   <main class="content" id="formulario">
     <p class="intro">
-      Senhores(as), estamos realizando uma consulta junto ao efetivo do 4º Pelotão
-      com o objetivo de verificar o interesse dos policiais em participar de uma
-      confraternização na <strong>segunda quinzena de setembro de 2026</strong>.
-      A participação de todos será muito importante para que possamos avaliar a
-      viabilidade do evento, estimar o número de participantes e organizar um
-      momento de integração, descontração e fortalecimento dos laços entre os
-      integrantes do Pelotão. Neste primeiro momento, trata-se apenas de uma
-      <strong>consulta de interesse</strong>. As informações serão utilizadas
-      exclusivamente para planejamento e organização do evento.
+      Senhores(as), para finalizar o planejamento da confraternização do 4º Pelotão,
+      solicitamos que cada integrante registre se levará acompanhante(s) e quantos,
+      além de informar o vínculo (esposa e/ou filhos). Essas informações são essenciais
+      para a estimativa de participantes e a organização logística do evento.
     </p>
 
     <form id="consulta" novalidate>
 
-      <!-- Pergunta 1 -->
+      <!-- Campo 1: Nome completo -->
       <div class="campo">
-        <label for="nome">1. Nome completo <span class="req">*</span></label>
+        <label for="nome">Nome completo <span class="req">*</span></label>
         <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo"
                maxlength="120" required autocomplete="name">
-        <small>O nome será utilizado apenas para controle interno do efetivo.</small>
       </div>
 
-      <!-- Pergunta 2 -->
+      <!-- Campo 2: Levará acompanhante? -->
       <div class="campo">
-        <label>2. Você tem interesse em participar da confraternização do 4º Pelotão? <span class="req">*</span></label>
-        <div class="opcoes">
+        <label>Você levará acompanhante? <span class="req">*</span></label>
+        <div class="opcoes" id="opcoesAcompanhante">
           <label class="opcao">
-            <input type="radio" name="interesse" value="Sim, tenho interesse" required>
-            <span>Sim, tenho interesse</span>
+            <input type="radio" name="acompanhante" value="Sim, levarei acompanhante" required>
+            <span>Sim, levarei acompanhante</span>
           </label>
           <label class="opcao">
-            <input type="radio" name="interesse" value="Não tenho interesse" required>
-            <span>Não tenho interesse</span>
+            <input type="radio" name="acompanhante" value="Não levarei acompanhante" required>
+            <span>Não levarei acompanhante</span>
           </label>
         </div>
       </div>
 
-      <!-- Pergunta 3 -->
-      <div class="campo">
-        <label for="sugestoes">3. Caso tenha alguma sugestão para a confraternização, deixe abaixo:</label>
-        <textarea id="sugestoes" name="sugestoes"
-          placeholder="Ex.: melhor dia da semana, horário, local, formato do evento, acompanhantes, cardápio..."></textarea>
-        <small>Opcional. Sugestões de data, horário, local, formato e acompanhantes ajudam na organização.</small>
+      <!-- Campo 3: Quantidade (só aparece se responder "Sim") -->
+      <div class="campo oculto" id="campoQuantidade">
+        <label for="quantidade">Quantidade de acompanhantes <span class="req">*</span></label>
+        <input type="number" id="quantidade" name="quantidade" min="1" max="20" placeholder="Ex.: 2">
+        <small>Informe quantas pessoas levará.</small>
+      </div>
+
+      <!-- Campo 4: Vínculo (esposa / filhos) -->
+      <div class="campo oculto" id="campoVinculo">
+        <label>Qual o vínculo? (pode marcar mais de uma opção)</label>
+        <div class="opcoes">
+          <label class="opcao">
+            <input type="checkbox" name="vinculo" value="Esposa">
+            <span>Esposa</span>
+          </label>
+          <label class="opcao">
+            <input type="checkbox" name="vinculo" value="Filhos">
+            <span>Filhos</span>
+          </label>
+          <label class="opcao">
+            <input type="checkbox" name="vinculo" value="Outros">
+            <span>Outros</span>
+          </label>
+        </div>
       </div>
 
       <button type="submit" class="btn-enviar" id="btnEnviar">Enviar resposta</button>
     </form>
   </main>
 
-  <!-- ===== Mensagem de confirmação ===== -->
   <section class="confirmacao" id="confirmacao" aria-live="polite">
     <div class="icone">🎖️</div>
     <h2>Obrigado pela participação!</h2>
-    <p>Suas informações foram registradas e serão utilizadas para auxiliar na organização
-       da confraternização do 4º Pelotão.<br><br>
-       Assim que houver definição de data, local e demais detalhes, novas informações
-       serão repassadas ao efetivo.</p>
+    <p>Suas informações foram registradas e serão utilizadas para o planejamento
+       da confraternização do 4º Pelotão.</p>
   </section>
 
   <div class="aviso" id="aviso">
@@ -259,30 +202,58 @@
   // ============================================================
   // COLE AQUI A URL DA SUA PLANILHA (termina em /exec)
   // ============================================================
-  var URL_PLANILHA = "https://script.google.com/macros/s/AKfycbwdUhRVRbjuqs42TtujYL32RNlltTE3KBYyKXPyzUIyBNkQYOLDp917BTH-6KcrstKAbA/exec";
+  var URL_PLANILHA = "";
 
   var form        = document.getElementById("consulta");
   var btnEnviar   = document.getElementById("btnEnviar");
   var confirmacao = document.getElementById("confirmacao");
   var formulario  = document.getElementById("formulario");
   var aviso       = document.getElementById("aviso");
+  var campoQuantidade = document.getElementById("campoQuantidade");
+  var campoVinculo    = document.getElementById("campoVinculo");
 
-  // Destaque visual da opção selecionada
+  // Destaque visual das opções selecionadas
   document.querySelectorAll(".opcao").forEach(function(opcao){
-    var radio = opcao.querySelector("input");
-    radio.addEventListener("change", function(){
-      document.querySelectorAll(".opcao").forEach(function(o){ o.classList.remove("selecionada"); });
-      if (radio.checked) opcao.classList.add("selecionada");
+    var input = opcao.querySelector("input");
+    if (input.type === "radio") {
+      input.addEventListener("change", function(){
+        document.querySelectorAll('input[name="acompanhante"]').forEach(function(r){
+          r.closest(".opcao").classList.remove("selecionada");
+        });
+        if (input.checked) opcao.classList.add("selecionada");
+      });
+    } else {
+      input.addEventListener("change", function(){
+        opcao.classList.toggle("selecionada", input.checked);
+      });
+    }
+  });
+
+  // Mostra/esconde quantidade e vínculo conforme a resposta
+  document.querySelectorAll('input[name="acompanhante"]').forEach(function(r){
+    r.addEventListener("change", function(){
+      if (r.value === "Sim, levarei acompanhante") {
+        campoQuantidade.classList.remove("oculto");
+        campoVinculo.classList.remove("oculto");
+      } else {
+        campoQuantidade.classList.add("oculto");
+        campoVinculo.classList.add("oculto");
+        document.getElementById("quantidade").value = "";
+        document.querySelectorAll('input[name="vinculo"]').forEach(function(c){ c.checked = false; });
+        document.querySelectorAll('input[name="vinculo"]').forEach(function(c){ c.closest(".opcao").classList.remove("selecionada"); });
+      }
     });
   });
 
-  // Envio (SEM bloqueio — qualquer pessoa pode responder quantas vezes quiser)
+  // Envio
   form.addEventListener("submit", function(e){
     e.preventDefault();
 
     var nome = document.getElementById("nome").value.trim();
-    var interesse = form.querySelector('input[name="interesse"]:checked');
-    var sugestoes = document.getElementById("sugestoes").value.trim();
+    var acompanhante = form.querySelector('input[name="acompanhante"]:checked');
+    var quantidade = document.getElementById("quantidade").value.trim();
+    var vinculos = [];
+    document.querySelectorAll('input[name="vinculo"]:checked').forEach(function(c){ vinculos.push(c.value); });
 
     if (nome === "") {
       aviso.textContent = "Por favor, informe seu nome completo.";
@@ -290,16 +261,34 @@
       document.getElementById("nome").focus();
       return;
     }
-    if (!interesse) {
-      aviso.textContent = "Por favor, selecione se você tem interesse em participar.";
+    if (!acompanhante) {
+      aviso.textContent = "Por favor, selecione se levará acompanhante.";
       aviso.classList.add("erro");
       return;
+    }
+    if (acompanhante.value === "Sim, levarei acompanhante") {
+      if (quantidade === "" || parseInt(quantidade, 10) < 1) {
+        aviso.textContent = "Por favor, informe a quantidade de acompanhantes.";
+        aviso.classList.add("erro");
+        document.getElementById("quantidade").focus();
+        return;
+      }
+      if (vinculos.length === 0) {
+        aviso.textContent = "Por favor, marque o vínculo do(s) acompanhante(s).";
+        aviso.classList.add("erro");
+        return;
+      }
     }
 
     btnEnviar.disabled = true;
     btnEnviar.textContent = "Enviando...";
 
-    var dados = { nome: nome, interesse: interesse.value, sugestoes: sugestoes };
+    var dados = {
+      nome: nome,
+      acompanhante: acompanhante.value,
+      quantidade: acompanhante.value === "Sim, levarei acompanhante" ? quantidade : "0",
+      vinculo: vinculos.join(", ")
+    };
 
     function concluir(){
       formulario.style.display = "none";
@@ -320,7 +309,7 @@
         btnEnviar.textContent = "Enviar resposta";
       });
     } else {
-      setTimeout(concluir, 600); // modo demonstração
+      setTimeout(concluir, 600);
     }
   });
 })();
