@@ -126,9 +126,10 @@
   <main class="content" id="formulario">
     <p class="intro">
       Senhores(as), para finalizar o planejamento da confraternização do 4º Pelotão,
-      solicitamos que cada integrante registre se levará acompanhante(s) e quantos,
-      além de informar o vínculo (esposa e/ou filhos). Essas informações são essenciais
-      para a estimativa de participantes e a organização logística do evento.
+      solicitamos que cada integrante registre se levará acompanhante(s). Conforme a
+      organização do evento, apenas <strong>esposa e/ou filhos</strong> poderão
+      acompanhar. Essas informações são essenciais para a estimativa de participantes
+      e a organização logística do evento.
     </p>
 
     <form id="consulta" novalidate>
@@ -159,10 +160,10 @@
       <div class="campo oculto" id="campoQuantidade">
         <label for="quantidade">Quantidade de acompanhantes <span class="req">*</span></label>
         <input type="number" id="quantidade" name="quantidade" min="1" max="20" placeholder="Ex.: 2">
-        <small>Informe quantas pessoas levará.</small>
+        <small>Informe quantas pessoas levará (esposa e/ou filhos).</small>
       </div>
 
-      <!-- Campo 4: Vínculo (esposa / filhos) -->
+      <!-- Campo 4: Vínculo (apenas esposa e/ou filhos) -->
       <div class="campo oculto" id="campoVinculo">
         <label>Qual o vínculo? (pode marcar mais de uma opção)</label>
         <div class="opcoes">
@@ -174,11 +175,15 @@
             <input type="checkbox" name="vinculo" value="Filhos">
             <span>Filhos</span>
           </label>
-          <label class="opcao">
-            <input type="checkbox" name="vinculo" value="Outros">
-            <span>Outros</span>
-          </label>
         </div>
+      </div>
+
+      <!-- Campo 5: Especificar (só aparece se marcar algum vínculo) -->
+      <div class="campo oculto" id="campoEspecificar">
+        <label for="especificar">Especifique os acompanhantes <span class="req">*</span></label>
+        <input type="text" id="especificar" name="especificar"
+               placeholder="Ex.: esposa e 2 filhos (João, 8 anos; Maria, 5 anos)">
+        <small>Informe o vínculo e a quantidade de cada um (ex.: esposa e 2 filhos).</small>
       </div>
 
       <button type="submit" class="btn-enviar" id="btnEnviar">Enviar resposta</button>
@@ -209,8 +214,9 @@
   var confirmacao = document.getElementById("confirmacao");
   var formulario  = document.getElementById("formulario");
   var aviso       = document.getElementById("aviso");
-  var campoQuantidade = document.getElementById("campoQuantidade");
-  var campoVinculo    = document.getElementById("campoVinculo");
+  var campoQuantidade  = document.getElementById("campoQuantidade");
+  var campoVinculo     = document.getElementById("campoVinculo");
+  var campoEspecificar = document.getElementById("campoEspecificar");
 
   // Destaque visual das opções selecionadas
   document.querySelectorAll(".opcao").forEach(function(opcao){
@@ -225,11 +231,12 @@
     } else {
       input.addEventListener("change", function(){
         opcao.classList.toggle("selecionada", input.checked);
+        atualizarEspecificar();
       });
     }
   });
 
-  // Mostra/esconde quantidade e vínculo conforme a resposta
+  // Mostra/esconde quantidade, vínculo e especificação
   document.querySelectorAll('input[name="acompanhante"]').forEach(function(r){
     r.addEventListener("change", function(){
       if (r.value === "Sim, levarei acompanhante") {
@@ -238,12 +245,27 @@
       } else {
         campoQuantidade.classList.add("oculto");
         campoVinculo.classList.add("oculto");
+        campoEspecificar.classList.add("oculto");
         document.getElementById("quantidade").value = "";
-        document.querySelectorAll('input[name="vinculo"]').forEach(function(c){ c.checked = false; });
-        document.querySelectorAll('input[name="vinculo"]').forEach(function(c){ c.closest(".opcao").classList.remove("selecionada"); });
+        document.getElementById("especificar").value = "";
+        document.querySelectorAll('input[name="vinculo"]').forEach(function(c){
+          c.checked = false;
+          c.closest(".opcao").classList.remove("selecionada");
+        });
       }
     });
   });
+
+  // Mostra o campo de especificação quando marca algum vínculo
+  function atualizarEspecificar(){
+    var marcou = document.querySelector('input[name="vinculo"]:checked');
+    if (marcou) {
+      campoEspecificar.classList.remove("oculto");
+    } else {
+      campoEspecificar.classList.add("oculto");
+      document.getElementById("especificar").value = "";
+    }
+  }
 
   // Envio
   form.addEventListener("submit", function(e){
@@ -252,6 +274,7 @@
     var nome = document.getElementById("nome").value.trim();
     var acompanhante = form.querySelector('input[name="acompanhante"]:checked');
     var quantidade = document.getElementById("quantidade").value.trim();
+    var especificar = document.getElementById("especificar").value.trim();
     var vinculos = [];
     document.querySelectorAll('input[name="vinculo"]:checked').forEach(function(c){ vinculos.push(c.value); });
 
@@ -274,8 +297,14 @@
         return;
       }
       if (vinculos.length === 0) {
-        aviso.textContent = "Por favor, marque o vínculo do(s) acompanhante(s).";
+        aviso.textContent = "Por favor, marque o vínculo (esposa e/ou filhos).";
         aviso.classList.add("erro");
+        return;
+      }
+      if (especificar === "") {
+        aviso.textContent = "Por favor, especifique os acompanhantes (ex.: esposa e 2 filhos).";
+        aviso.classList.add("erro");
+        document.getElementById("especificar").focus();
         return;
       }
     }
@@ -287,7 +316,8 @@
       nome: nome,
       acompanhante: acompanhante.value,
       quantidade: acompanhante.value === "Sim, levarei acompanhante" ? quantidade : "0",
-      vinculo: vinculos.join(", ")
+      vinculo: vinculos.join(", "),
+      especificacao: acompanhante.value === "Sim, levarei acompanhante" ? especificar : ""
     };
 
     function concluir(){
